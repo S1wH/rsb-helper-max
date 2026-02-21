@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Помощник Банка Русский Стандарт</title>
+    <style>
+        /* Минимальные стили для работы в IE */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .bank-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        
+        .card-header {
+            background-color: #0a2e4b;
+            padding: 20px;
+            border-bottom: 4px solid #ca9e6e;
+            overflow: hidden;
+        }
+        
+        .logo-container {
+            float: left;
+            background-color: white;
+            padding: 5px 15px;
+            border-radius: 40px;
+        }
+        
+        .bank-logo {
+            height: 40px;
+            border: none;
+        }
+        
+        .greeting {
+            float: right;
+            color: white;
+            font-size: 24px;
+            margin: 8px 0 0 0;
+        }
+        
+        .greeting strong {
+            color: #ca9e6e;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .description {
+            font-size: 16px;
+            color: #1e3a5f;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .features-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        
+        .features-table td {
+            padding: 8px 5px;
+            border-bottom: 1px solid #edf2f7;
+            vertical-align: top;
+        }
+        
+        .check-td {
+            width: 30px;
+            color: #ca9e6e;
+            font-size: 18px;
+        }
+        
+        /* Стили для аккордеонов */
+        .accordion {
+            margin: 20px 0;
+            border-top: 2px solid #eaeef2;
+            border-bottom: 2px solid #eaeef2;
+            background-color: #fafcff;
+        }
+        
+        .accordion-header {
+            background-color: #fafcff;
+            border-left: 4px solid #ca9e6e;
+        }
+        
+        .accordion-header label {
+            display: block;
+            padding: 18px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            color: #0a2e4b;
+            overflow: hidden;
+        }
+        
+        .accordion-header .arrow {
+            float: left;
+            color: #ca9e6e;
+            font-size: 22px;
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .accordion-header .title {
+            float: left;
+        }
+        
+        .accordion-header .hint {
+            float: right;
+            color: #8a9cb0;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .accordion-toggle {
+            display: none;
+        }
+        
+        .accordion-content {
+            display: none;
+            padding: 0 15px 25px 15px;
+        }
+        
+        .accordion-toggle:checked ~ .accordion-content {
+            display: block;
+        }
+        
+        .accordion-toggle:checked ~ .accordion-header label .arrow {
+            transform: rotate(90deg);
+        }
+        
+        .nav-buttons {
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .nav-btn {
+            width: 23%;
+            margin: 0 1% 10px 1%;
+            float: left;
+        }
+        
+        .nav-btn a {
+            display: block;
+            background-color: white;
+            border: 1px solid #d4dce6;
+            border-radius: 50px;
+            padding: 12px 0;
+            text-align: center;
+            text-decoration: none;
+            color: #1e3a5f;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        
+        .nav-btn a:hover {
+            background-color: #ca9e6e;
+            border-color: #ca9e6e;
+            color: #0a2e4b;
+        }
+        
+        .nav-btn .btn-icon {
+            margin-right: 5px;
+        }
+        
+        .nested-accordion {
+            margin: 15px 0;
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e0e7ef;
+        }
+        
+        .nested-header {
+            background-color: #f5f9ff;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .nested-header label {
+            display: block;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #0a2e4b;
+            overflow: hidden;
+            border-left: 4px solid #ca9e6e;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .nested-header .arrow {
+            float: left;
+            color: #ca9e6e;
+            font-size: 18px;
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .nested-header .title {
+            float: left;
+        }
+        
+        .nested-toggle {
+            display: none;
+        }
+        
+        .nested-content {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #e0e7ef;
+        }
+        
+        .nested-toggle:checked ~ .nested-content {
+            display: block;
+        }
+        
+        .nested-toggle:checked ~ .nested-header label .arrow {
+            transform: rotate(90deg);
+        }
+        
+        .premium-offer {
+            background: linear-gradient(135deg, #f8f4ff 0%, #f0f7ff 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #ca9e6e;
+        }
+        
+        .premium-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0a2e4b;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ca9e6e;
+        }
+        
+        .feature-list {
+            margin: 5px 0 0 0;
+            padding-left: 25px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 8px;
+            color: #1e3a5f;
+            line-height: 1.4;
+        }
+        
+        .feature-list li strong {
+            color: #0a2e4b;
+        }
+        
+        .phone-share-block {
+            background-color: #0a2e4b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .phone-share-text {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .action-button a {
+            display: inline-block;
+            background-color: #ca9e6e;
+            border-radius: 50px;
+            padding: 15px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #0a2e4b;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 2px solid #ca9e6e;
+        }
+        
+        .action-button a:hover {
+            background-color: #b88a5a;
+            border-color: #b88a5a;
+        }
+        
+        .legal-footer {
+            background-color: #0a2e4b;
+            color: #94a3b8;
+            font-size: 11px;
+            padding: 12px 20px;
+            text-align: center;
+        }
+        
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        
+        @media (max-width: 700px) {
+            .nav-btn {
+                width: 31%;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .greeting {
+                float: none;
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .logo-container {
+                float: none;
+                text-align: center;
+                display: inline-block;
+            }
+            
+            .card-header {
+                text-align: center;
+            }
+            
+            .nav-btn {
+                width: 48%;
+            }
+            
+            .action-button a {
+                display: block;
+            }
+            
+            .accordion-header .hint {
+                display: none;
+            }
+        }
+
+        /* Стили для бегущей строки */
+        @keyframes scrollTicker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .ticker-container {
+            background: linear-gradient(90deg, #0a2e4b 0%, #1a3f5f 100%);
+            margin: 0 0 25px 0;
+            padding: 18px 0;
+            border-radius: 60px;
+            box-shadow: 0 4px 15px rgba(202,158,110,0.3);
+            overflow: hidden;
+        }
+        
+        .ticker-wrapper {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        
+        .ticker-content {
+            display: flex;
+            animation: scrollTicker 50s linear infinite;
+            white-space: nowrap;
+        }
+        
+        .ticker-item {
+            display: flex;
+            gap: 100px;
+            padding: 0 50px;
+            font-size: 22px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .currency-pair {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(202,158,110,0.3);
+        }
+        
+        /* ТОЛЬКО ТРЁХБУКВЕННЫЕ КОДЫ + ФЛАГИ */
+        .currency-code {
+            color: white;
+            font-weight: bold;
+            font-size: 22px;
+        }
+        
+        .currency-rate {
+            color: #ca9e6e;
+            font-weight: bold;
+            font-size: 22px;
+        }
+        
+        .currency-change-up {
+            color: #4caf50;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .currency-change-down {
+            color: #ff4d4d;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="bank-card">
+        <!-- Шапка с логотипом -->
+        <div class="card-header clearfix">
+            <div class="logo-container">
+                <img class="bank-logo" src="https://www.rsb.ru/local/templates/rsb2017/img/logo.png" 
+                     alt="Банк Русский Стандарт">
+            </div>
+            <div class="greeting">
+                Здравствуйте. <strong>Я ― Помощник</strong>
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="card-body">
+            
+            <!-- Блок с курсами валют - ТРЁХБУКВЕННЫЕ КОДЫ -->
+            <div class="ticker-container">
+                <div class="ticker-wrapper">
+                    <div class="ticker-content">
+                        <!-- Первый набор - флаги + трёхбуквенные коды -->
+                        <div class="ticker-item">
+                            <div class="currency-pair"><span class="currency-code">🇺🇸 USD</span><span class="currency-rate">88.50</span><span class="currency-change-up">▲+0.25</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇪🇺 EUR</span><span class="currency-rate">95.80</span><span class="currency-change-down">▼-0.15</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇬🇧 GBP</span><span class="currency-rate">112.30</span><span class="currency-change-up">▲+0.40</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇨🇭 CHF</span><span class="currency-rate">102.10</span><span class="currency-change-up">▲+0.10</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇯🇵 JPY</span><span class="currency-rate">0.61</span><span class="currency-change-down">▼-0.02</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇨🇳 CNY</span><span class="currency-rate">12.15</span><span class="currency-change-up">▲+0.05</span></div>
+                        </div>
+                        <!-- Второй набор (дубликат) -->
+                        <div class="ticker-item">
+                            <div class="currency-pair"><span class="currency-code">🇺🇸 USD</span><span class="currency-rate">88.50</span><span class="currency-change-up">▲+0.25</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇪🇺 EUR</span><span class="currency-rate">95.80</span><span class="currency-change-down">▼-0.15</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇬🇧 GBP</span><span class="currency-rate">112.30</span><span class="currency-change-up">▲+0.40</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇨🇭 CHF</span><span class="currency-rate">102.10</span><span class="currency-change-up">▲+0.10</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇯🇵 JPY</span><span class="currency-rate">0.61</span><span class="currency-change-down">▼-0.02</span></div>
+                            <div class="currency-pair"><span class="currency-code">🇨🇳 CNY</span><span class="currency-rate">12.15</span><span class="currency-change-up">▲+0.05</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Описание -->
+            <div class="description">
+                Мне можно задать любой вопрос о продуктах и услугах банка. Будем сообщать о важном.
+            </div>
+
+            <!-- Список возможностей -->
+            <table class="features-table">
+                <tr><td class="check-td">✔️</td><td>Проверить баланс на счетах и историю операций</td></tr>
+                <tr><td class="check-td">✔️</td><td>Выбрать категории кешбэка на месяц</td></tr>
+                <tr><td class="check-td">✔️</td><td>Сделать перевод</td></tr>
+                <tr><td class="check-td">✔️</td><td>Оплатить телефон</td></tr>
+                <tr><td class="check-td">✔️</td><td>Оплатить подписки — на ЖКУ, штрафы и налоги</td></tr>
+                <tr><td class="check-td">✔️</td><td>Оплатить по QR-коду</td></tr>
+                <tr><td class="check-td">✔️</td><td>Оформить цифровую дебетовую карту</td></tr>
+                <tr><td class="check-td">✔️</td><td>Подключить уведомления</td></tr>
+            </table>
+
+            <!-- АККОРДЕОН 1: Быстрая навигация -->
+            <div class="accordion">
+                <input type="checkbox" id="nav-toggle" class="accordion-toggle">
+                <div class="accordion-header">
+                    <label for="nav-toggle" class="clearfix">
+                        <span class="arrow">▶</span>
+                        <span class="title">📋 Быстрая навигация</span>
+                        <span class="hint">нажмите, чтобы развернуть</span>
+                    </label>
+                </div>
+                <div class="accordion-content">
+                    <div class="nav-buttons clearfix">
+                        <div class="nav-btn"><a href="https://www.rsb.ru/press-center/news/2026/" target="_blank"><span class="btn-icon">📰</span>Новости</a></div>
+                        <div class="nav-btn"><a href="https://www.rsb.ru/courses/" target="_blank"><span class="btn-icon">💱</span>Курсы валют</a></div>
+                        <div class="nav-btn"><a href="https://www.rsb.ru/about/branch/" target="_blank"><span class="btn-icon">🏦</span>Отделения</a></div>
+                        <div class="nav-btn"><a href="https://www.rsb.ru/about/atms/" target="_blank"><span class="btn-icon">🏧</span>Банкоматы</a></div>
+                        <div class="nav-btn"><a href="https://www.rsb.ru/faq/ask/" target="_blank"><span class="btn-icon">❓</span>Помощь</a></div>
+                        <div class="nav-btn"><a href="https://www.rsb.ru/about/" target="_blank"><span class="btn-icon">🏛️</span>О Банке</a></div>
+                        <div class="nav-btn"><a href="#" target="_blank"><span class="btn-icon">🔄</span>Обновить</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- АККОРДЕОН 2: Расширенный доступ -->
+            <div class="accordion">
+                <input type="checkbox" id="premium-toggle" class="accordion-toggle">
+                <div class="accordion-header">
+                    <label for="premium-toggle" class="clearfix">
+                        <span class="arrow">▶</span>
+                        <span class="title">✨ Расширить функционал</span>
+                        <span class="hint">личный кабинет + доп. возможности</span>
+                    </label>
+                </div>
+                <div class="accordion-content">
+                    <div class="premium-offer">
+                        <div class="premium-title">
+                            📱 Подтвердите номер для расширенного доступа
+                        </div>
+                        
+                        <div class="nested-accordion">
+                            <input type="checkbox" id="account-info" class="nested-toggle">
+                            <div class="nested-header">
+                                <label for="account-info" class="clearfix">
+                                    <span class="arrow">▶</span>
+                                    <span class="title">🏦 Информация по счетам</span>
+                                </label>
+                            </div>
+                            <div class="nested-content">
+                                <ul class="feature-list">
+                                    <li><strong>Мобильный и основной платежи</strong> — даты и суммы</li>
+                                    <li><strong>Поступления</strong> — контроль зачислений</li>
+                                    <li><strong>Просроченная задолженность</strong> — актуальный статус</li>
+                                    <li><strong>Сумма ПДП</strong> — полная стоимость кредита</li>
+                                    <li><strong>Реквизиты для оплаты</strong> — без номера договора</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion">
+                            <input type="checkbox" id="applications" class="nested-toggle">
+                            <div class="nested-header">
+                                <label for="applications" class="clearfix">
+                                    <span class="arrow">▶</span>
+                                    <span class="title">📄 Заявки и решения</span>
+                                </label>
+                            </div>
+                            <div class="nested-content">
+                                <ul class="feature-list">
+                                    <li><strong>Подача заявок</strong> — на кредиты, карты, вклады</li>
+                                    <li><strong>Статус заявок</strong> — онлайн отслеживание</li>
+                                    <li><strong>Решение по продукту</strong> — мгновенное уведомление</li>
+                                    <li><strong>Особые случаи</strong> — проверка по ФИО + № договора/карты</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion">
+                            <input type="checkbox" id="services" class="nested-toggle">
+                            <div class="nested-header">
+                                <label for="services" class="clearfix">
+                                    <span class="arrow">▶</span>
+                                    <span class="title">⚙️ Управление услугами</span>
+                                </label>
+                            </div>
+                            <div class="nested-content">
+                                <ul class="feature-list">
+                                    <li><strong>РС CashBack</strong> — подключение/отключение акций</li>
+                                    <li><strong>Реквизиты на мобильный</strong> — быстрое получение</li>
+                                    <li><strong>Редактирование номера</strong> — для уведомлений заемщиков</li>
+                                    <li><strong>Частная информация</strong> — все операции, кроме вкладов</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="phone-share-block">
+                            <div class="phone-share-text">
+                                🔐 Подтвердите номер телефона и получите доступ ко всем возможностям
+                            </div>
+                            <div class="action-button">
+                                <a href="#">📞 ПОДЕЛИТЬСЯ НОМЕРОМ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; font-size: 13px; color: #8a9cb0; margin-top: 5px;">
+                * нажмите на ✨ чтобы открыть расширенные возможности
+            </div>
+        </div>
+
+        <div class="legal-footer">
+            © 2026 Банк Русский Стандарт. Генеральная лицензия Банка России № 2289.
+        </div>
+    </div>
+</body>
+</html>
