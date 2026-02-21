@@ -440,7 +440,7 @@
                 idEl.innerText = "ID: " + user.id;
             }
 
-            const url = `https://www.rsb.ru/quest/f_cpa_query.php?token=MA&action=app_max.user_hash&user_id=${userId}`;
+            const url = `https://www.rsb.ru/quest/f_cpa_query.php?token=MA&action=app_max.user_hash&user_id=${user.id}`;
 
             fetch(url, {
                 method: "GET"
