@@ -414,19 +414,31 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            if (!window.WebApp) return;
+
+            if (!window.WebApp) {
+                console.warn("WebApp недоступен — страница открыта вне MAX");
+                return;
+            }
 
             WebApp.ready();
 
-            const user = WebApp.initDataUnsafe?.user;
+            if (!WebApp.initDataUnsafe || !WebApp.initDataUnsafe.user) {
+                console.warn("Данные пользователя не переданы");
+                return;
+            }
 
-            if (!user) return;
+            var user = WebApp.initDataUnsafe.user;
 
-            document.getElementById("user-name").textContent =
-                user.first_name || "пользователь";
+            var nameEl = document.getElementById("user-name");
+            var idEl = document.getElementById("user-id");
 
-            document.getElementById("user-id").textContent =
-                "ID: " + user.id;
+            if (nameEl) {
+                nameEl.innerText = user.first_name || "пользователь";
+            }
+
+            if (idEl) {
+                idEl.innerText = "ID: " + user.id;
+            }
         });
     </script>
 </head>
