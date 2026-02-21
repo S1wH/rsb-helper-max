@@ -414,27 +414,14 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            if (!window.MaxWebApp) {
-                console.warn("MaxWebApp недоступен (вне MAX)");
+            if (!window.webApp) {
+                console.warn("webApp недоступен (вне MAX)");
                 return;
             }
+            
+            
+            document.getElementById("user-label").textContent = window.WebAppData || "пользователь";
 
-            MaxWebApp.ready();
-
-            MaxWebApp.getUser()
-                .then(function (user) {
-                    console.log("USER:", user);
-
-                    // безопасно вставляем данные
-                    document.getElementById("user-label").textContent =
-                        user.first_name || "пользователь";
-
-                    document.getElementById("user-id").textContent =
-                        "ID: " + user.id;
-                })
-                .catch(function (err) {
-                    console.error("Ошибка getUser:", err);
-                });
         });
     </script>
 </head>
