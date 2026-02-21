@@ -414,14 +414,19 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            if (!window.webApp) {
-                console.warn("webApp недоступен (вне MAX)");
-                return;
-            }
-            
-            
-            document.getElementById("user-label").textContent = window.WebAppData || "пользователь";
+            if (!window.WebApp) return;
 
+            WebApp.ready();
+
+            const user = WebApp.initDataUnsafe?.user;
+
+            if (!user) return;
+
+            document.getElementById("user-name").textContent =
+                user.first_name || "пользователь";
+
+            document.getElementById("user-id").textContent =
+                "ID: " + user.id;
         });
     </script>
 </head>
@@ -434,7 +439,7 @@
                      alt="Банк Русский Стандарт">
             </div>
             <div class="greeting">
-                Здравствуйте, <strong id="user-label">гость</strong><br>
+                Здравствуйте, <strong id="user-name">гость</strong><br>
                 <span id="user-id" style="font-size:14px; opacity:0.8;"></span>
                 <strong>Я ― Помощник</strong>
             </div>
