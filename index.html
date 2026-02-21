@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Помощник Банка Русский Стандарт</title>
+    <script src="https://st.max.ru/js/max-web-app.js"></script>
     <style>
         /* Минимальные стили для работы в IE */
         body {
@@ -411,6 +412,31 @@
             font-weight: bold;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!window.MaxWebApp) {
+                console.warn("MaxWebApp недоступен (вне MAX)");
+                return;
+            }
+
+            MaxWebApp.ready();
+
+            MaxWebApp.getUser()
+                .then(function (user) {
+                    console.log("USER:", user);
+
+                    // безопасно вставляем данные
+                    document.getElementById("user-label").textContent =
+                        user.first_name || "пользователь";
+
+                    document.getElementById("user-id").textContent =
+                        "ID: " + user.id;
+                })
+                .catch(function (err) {
+                    console.error("Ошибка getUser:", err);
+                });
+        });
+    </script>
 </head>
 <body>
     <div class="bank-card">
@@ -421,7 +447,9 @@
                      alt="Банк Русский Стандарт">
             </div>
             <div class="greeting">
-                Здравствуйте. <strong>Я ― Помощник</strong>
+                Здравствуйте, <strong id="user-label">гость</strong><br>
+                <span id="user-id" style="font-size:14px; opacity:0.8;"></span>
+                <strong>Я ― Помощник</strong>
             </div>
         </div>
 
